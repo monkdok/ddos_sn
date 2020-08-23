@@ -34,4 +34,4 @@ class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '{}-{}'.format(self.suer, self.post, self.value)
+        return '{}-{}'.format(self.user, self.post, self.value)

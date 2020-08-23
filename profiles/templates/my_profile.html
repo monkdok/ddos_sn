@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home Page
+{% endblock title %}
+{% block content %}
+<h2>My profile</h2>
+<hr>
+<div class="ui segment">
+    <div class="ui grid">
+        <div class="row">
+
+            <div class="six wide column">
+                <img class="ui small rounded image" src="{{ profile.avatar.url }}" alt="">
+            </div>
+            <div class="ten wide column">
+                <table class="ui celled table">
+                    <tbody>
+                    <tr>
+                        <td>Username</td>
+                        <td>{{ profile.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of posts</td>
+                        <td>{{ profile.get_posts_num }}</td>
+                    </tr>
+                    <tr>
+                        <td>Given likes</td>
+                        <td>{{ profile.get_likes_given_num }}</td>
+                    </tr>
+                    <tr>
+                        <td>Likes received</td>
+                        <td>{{ profile.get_likes_receive_num }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

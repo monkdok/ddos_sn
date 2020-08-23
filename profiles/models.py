@@ -22,6 +22,28 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def get_posts_num(self):
+        # "posts" related_name of field "author" in the Post model
+        return self.posts.all().count()
+
+    def get_authors_posts(self):
+        return self.posts.all()
+
+    def get_likes_given_num(self):
+        likes = self.like_set.all()
+        total_liked = 0
+        for like in likes:
+            if like.value == 'Like':
+                total_liked += 1
+        return total_liked
+
+    def get_likes_receive_num(self):
+        posts = self.posts.all()
+        total_liked = 0
+        for post in posts:
+            total_liked += post.liked.all().count()
+        return total_liked
+
     def __str__(self):
         return '{}-{}'.format(self.user.username, self.created.strftime('%d-%m-%Y'),)
 

@@ -9,4 +9,4 @@ class HomePageView(View):
         context = {
             'profile': profile
         }
-        return render(request, 'home.html', context)
+        return render(request, 'my_profile.html', context)
