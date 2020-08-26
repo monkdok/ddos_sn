@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from profiles.models import *
+from datetime import date
 
 
 class Post(models.Model):
@@ -20,6 +21,9 @@ class Post(models.Model):
     class Meta:
         ordering = ('-created',)
 
+    def save(self, *args, **kwargs):
+        super(Post, self).save(*args, **kwargs)
+
 
 class Like(models.Model):
     LIKE_CHOICES = (
@@ -35,3 +39,10 @@ class Like(models.Model):
 
     def __str__(self):
         return '{}-{}'.format(self.user, self.post, self.value)
+
+
+class Test(models.Model):
+    title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title

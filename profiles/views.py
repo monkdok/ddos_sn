@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import View
+from rest_framework.viewsets import ModelViewSet
+from .serializers import ProfileSerializer
 from .models import *
 
 
@@ -9,4 +11,9 @@ class HomePageView(View):
         context = {
             'profile': profile
         }
-        return render(request, 'my_profile.html', context)
+        return render(request, 'profiles/my_profile.html', context)
+
+
+class ProfileViewSet(ModelViewSet):
+        queryset = Profile.objects.all()
+        serializer_class = ProfileSerializer

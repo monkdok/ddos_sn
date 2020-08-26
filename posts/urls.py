@@ -21,14 +21,15 @@ from rest_framework.routers import SimpleRouter
 
 from .views import *
 
-app_name = 'profiles'
-router = SimpleRouter()
-router.register(r'profileset', ProfileViewSet)
+app_name = 'posts'
+# router = SimpleRouter()
+# router.register(r'post-list', PostViewSet)
+# router.register(r'test', TestViewSet)
 
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name="home_page_url"),
-    path('profile/', HomePageView.as_view(), name="home_page_url"),
+    path('post-list/', PostListView.as_view(), name="post_list_url"),
+    path('like-unlike-post/', like_unlike_post, name="like_unlike_post_url"),
 ]
 
-urlpatterns += router.urls
+# urlpatterns += router.urls
