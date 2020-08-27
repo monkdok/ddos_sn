@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_jwt',
     'profiles',
+    # 'profiles.apps.ProfilesConfig'
     'posts',
 
 ]
@@ -167,4 +168,5 @@ STATICFILES_DIRS = [STATIC_DIR]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
+# AUTH_USER_MODEL = 'auth.User'
+# AUTH_USER_MODEL = 'profiles.Profile'
