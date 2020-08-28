@@ -2,16 +2,14 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import PostSerializer, LikeUnlikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
-from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from ..models import Post, Like
-# from ...profiles.models import Profile
 from profiles.models import Profile
 
 
+# List and Create
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -20,13 +18,25 @@ class PostViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
+# Number of likes on the selected post
+class PostLikeAnalytics(APIView):
+    def get(self, request):
+        date_from = self.request.query_params.get('date_from')
+        date_to = self.request.query_params.get('date_to')
+        post_id = self.request.query_params.get('post_id')
+        post = Post.objects.get(id=post_id)
+        post_likes = Post.objects.filter(id=post_id, like__value='Like')
+        likes_num = Like.objects.filter(post=post, created__range=(date_from, date_to)).count()
+        all_likes_num = Like.objects.filter(created__range=(date_from, date_to)).count()
+        return Response({'likes count': likes_num})
+
+
 class LikeUnlikeViewSet(APIView):
     def post(self, request):
         serializer = LikeUnlikeSerializer(data=request.data)
         user = request.user
         message = ''
         if serializer.is_valid():
-            user_id = serializer.data.get('user_id')
             post_id = serializer.data.get('post_id')
             profile = Profile.objects.get(user=user)
             post = Post.objects.get(id=post_id)
@@ -36,37 +46,19 @@ class LikeUnlikeViewSet(APIView):
             else:
                 post.liked.add(profile)
 
-            like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
+            like, created = Like.objects.get_or_create(user=profile, post=post)
             if not created:
                 if like.value == 'Like':
                     like.value = 'Unlike'
-                    message = 'Post Unliked'
+                    message = f'Post "{post.content[:20]}" Unliked'
                     like.save()
                 else:
                     like.value = 'Like'
-                    message = 'Post Liked'
+                    message = f'Post "{post.content[:20]}" Liked'
                     like.save()
             else:
                 like.value = 'Like'
-                message = 'Post Liked'
+                message = f'Post "{post.content[:20]}" Liked'
                 post.save()
                 like.save()
         return Response({'message': message})
-
-
-class TestList(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'posts/post_list2.html'
-
-    def get(self, request):
-        queryset = Post.objects.all()
-        return Response({'posts': queryset})
-
-
-class TestList2(ModelViewSet):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'posts/post_list2.html'
-
-    def get(self, request):
-        queryset = Post.objects.all()
-        return Response({'posts': queryset})

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import View
 
 from .forms import PostCreateForm
-from .models import Post, Like, Test
+from .models import Post, Like
 from profiles.models import Profile
 
 
@@ -52,3 +52,4 @@ def like_unlike_post(request):
             post.save()
             like.save()
     return redirect('posts:post_list_url')
+

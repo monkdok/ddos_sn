@@ -1,17 +1,14 @@
-from django.conf import settings
-from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import static
 from rest_framework.routers import SimpleRouter
-from .views import LikeUnlikeViewSet, PostViewSet
+from .views import LikeUnlikeViewSet, PostViewSet, PostLikeAnalytics
 
 app_name = 'posts'
 router = SimpleRouter()
-# , basename='MyModel2'
-router.register(r'post-list', PostViewSet)
+router.register(r'post-list-create', PostViewSet)
 
 urlpatterns = [
     path('like-unlike/', LikeUnlikeViewSet.as_view(), name='like-unlike-url'),
+    path('like-count/', PostLikeAnalytics.as_view(), name='like-count-url'),
 ]
 
 urlpatterns += router.urls

@@ -42,9 +42,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_jwt',
     'profiles',
-    # 'profiles.apps.ProfilesConfig'
     'posts',
-
 ]
 
 MIDDLEWARE = [
@@ -153,10 +151,9 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
-
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -170,3 +167,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AUTH_USER_MODEL = 'auth.User'
 # AUTH_USER_MODEL = 'profiles.Profile'
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False

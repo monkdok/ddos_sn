@@ -1,41 +1,57 @@
-"""profiles URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 app_name = 'posts'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    # User Registrations
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
-    # JWL
-    path('api-token-auth/', obtain_jwt_token),
-    path('profile/', include('profiles.urls', namespace='profiles')),
+    # JWT Authentication
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair_url'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh_pair_url'),
+    # Apps
+    path('profiles/', include('profiles.urls', namespace='profiles')),
     path('posts/', include('posts.urls', namespace='posts')),
-
-    # Rest Framework URLs
+    # Apps API
     path('api/posts/', include('posts.api.urls', 'posts_api')),
 
 ]
 
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+"""
+User registration:
+/auth/users/
+request body:
+-username
+-request
+-password
+
+Post list/create:
+/api/posts/post-list-create/
+request body:
+-content
+-author ID
+
+Token generate:
+/api/token/
+
+Token refresh:
+/api/token/refresh/ 
+
+Post Like/Unlike:
+/api/posts/like-unlike/
+request body:
+-post ID
+
+Post analytics:
+/api/posts/like-count/?date_from=2020-08-22 10:00&date_to=2020-08-27 23:00&post_id=26
+"""
