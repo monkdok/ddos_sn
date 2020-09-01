@@ -7,6 +7,10 @@ posts
 {% block content %}
 <div class="ui grid">
     <div class="row">
+        {% for i in likes %}
+        {{ i.created }}
+        <br>
+        {% endfor %}
         <div class="eleven wide column">
             {% for post in posts %}
             <div class="ui fluid card">

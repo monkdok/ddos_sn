@@ -27,5 +27,5 @@ class ProfileCreateView(CreateAPIView):
     permission_classes=[IsAuthenticated]
 
     def perform_create(self, serializer):
-        user=self.request.user
+        user = self.request.user
         serializer.save(user=user)

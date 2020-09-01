@@ -20,7 +20,6 @@ urlpatterns = [
     path('posts/', include('posts.urls', namespace='posts')),
     # Apps API
     path('api/posts/', include('posts.api.urls', 'posts_api')),
-
 ]
 
 if settings.DEBUG:
@@ -32,23 +31,31 @@ User registration:
 /auth/users/
 request body:
 -username
--request
 -password
 
-Post list/create:
-/api/posts/post-list-create/
+Post create:
+/api/posts/
 request body:
 -content
--author ID
+
+Post list:
+/api/posts/
+
+Post detail:
+/api/posts/<int:pk>/
+
 
 Token generate:
 /api/token/
+request body:
+-username
+-password
 
 Token refresh:
 /api/token/refresh/ 
 
 Post Like/Unlike:
-/api/posts/like-unlike/
+/api/posts/like-unlike-post/
 request body:
 -post ID
 

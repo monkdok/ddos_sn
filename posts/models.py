@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from profiles.models import *
@@ -32,11 +32,19 @@ class Like(models.Model):
     )
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='like')
     value = models.CharField(choices=LIKE_CHOICES, max_length=8)
-    updated = models.DateField(auto_now=True)
-    # created = models.DateField(blank=True, null=True)
-    created = models.DateField(auto_now_add=True)
+    updated = models.DateField(default=datetime.date.today)
+    created = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return '{}-{}'.format(self.user, self.post, self.value)
+
+    def get_like_num(self):
+        return self.post_set.count()
+
+    def save(self, *args, **kwargs):
+        # date = datetime.datetime.strptime(str(self.created), "%Y-%m-%d")
+        date = datetime.date.today()
+        self.created = date
+        super(Like, self).save(*args, **kwargs)
