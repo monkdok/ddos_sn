@@ -6,15 +6,17 @@ from ..models import Post, Like
 
 
 class LikeSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.user', read_only=True)
-    # created = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
-    liked = serializers.CharField(source='created', read_only=True)
-    like_count = serializers.ReadOnlyField(source='post.num_likes')
+    user_reacted = serializers.CharField(source='user.user', read_only=True)
+    post_author = serializers.CharField(source='post.author.user', read_only=True)
+    created = serializers.DateTimeField(source='post.created', format="%Y-%m-%d", read_only=True)
+    # created = serializers.CharField(source='created', read_only=True)
+    likes_count = serializers.ReadOnlyField(source='post.num_likes')
     content = serializers.CharField(source='post.content', read_only=True)
+    liked_by = serializers.PrimaryKeyRelatedField(source='post.liked', read_only=True, many=True)
 
     class Meta:
         model = Like
-        fields = ['post', 'user', 'liked', 'like_count', 'content', ]
+        fields = [ 'post', 'post_author', 'created', 'content', 'likes_count', 'liked_by', 'user_reacted']
 
 
 class PostSerializer(serializers.ModelSerializer):
