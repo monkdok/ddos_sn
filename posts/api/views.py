@@ -8,9 +8,11 @@ from rest_framework.response import Response
 from ..models import Post, Like
 from profiles.models import Profile
 from .service import LikeFilter
+from track_actions.requestMiddleware import RequestMiddleware
 
 
 class PostViewSet(ModelViewSet):
+    current_request = RequestMiddleware.get_request_data()[1]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -21,6 +23,7 @@ class PostViewSet(ModelViewSet):
 
 
 class LikeViewSet(ModelViewSet):
+    current_request = RequestMiddleware.get_request_data()[1]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -62,3 +65,4 @@ class LikeViewSet(ModelViewSet):
                 'message': message
             })
         return Response(status=HTTP_400_BAD_REQUEST)
+

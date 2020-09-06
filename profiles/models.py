@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
-from rest_framework.response import Response
 
 from .utils import get_random_code
 

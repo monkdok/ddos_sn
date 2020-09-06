@@ -1,3 +1,5 @@
+from django.contrib import auth
+from django.contrib.auth.models import User
 from django_filters import DateFilter, DateRangeFilter
 from rest_framework import serializers
 from rest_framework_jwt.compat import Serializer

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
 from .forms import PostCreateForm
@@ -10,9 +10,7 @@ class PostListView(View):
     def get(self, request):
         post_form = PostCreateForm()
         posts = Post.objects.all()
-        profile = Profile.objects.get(user=request.user)
         context = {
-            'profile': profile,
             'posts': posts,
             'post_form': post_form,
         }

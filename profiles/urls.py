@@ -22,8 +22,6 @@ from rest_framework.routers import SimpleRouter
 from .views import *
 
 app_name = 'profiles'
-router = SimpleRouter()
-router.register(r'profileset', ProfileViewSet)
 
 
 urlpatterns = [
@@ -31,4 +29,3 @@ urlpatterns = [
     path('profile/', HomePageView.as_view(), name="home_page_url"),
 ]
 
-urlpatterns += router.urls
