@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'posts',
     'drf_yasg',
     'track_actions',
+    'history',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'track_actions.requestMiddleware.RequestMiddleware',
+
 ]
 
 ROOT_URLCONF = 'ddos_sn.urls'

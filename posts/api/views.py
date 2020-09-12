@@ -9,26 +9,30 @@ from ..models import Post, Like
 from profiles.models import Profile
 from .service import LikeFilter
 from track_actions.requestMiddleware import RequestMiddleware
+from history.signals import object_viewed_signal
+from history.mixins import ObjectViewMixin
 
 
-class PostViewSet(ModelViewSet):
-    current_request = RequestMiddleware.get_request_data()[1]
+class PostViewSet(ObjectViewMixin, ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    current_request = RequestMiddleware.get_request_data()[1]
+    model = Post
 
     def perform_create(self, serializer):
         user = get_object_or_404(Profile, user=self.request.user)
         serializer.save(author=user)
 
 
-class LikeViewSet(ModelViewSet):
+class LikeViewSet(ObjectViewMixin, ModelViewSet):
     current_request = RequestMiddleware.get_request_data()[1]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = (DjangoFilterBackend,)
     filterset_class = LikeFilter
+    model = Like
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

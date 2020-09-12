@@ -15,7 +15,11 @@ posts
             {% for post in posts %}
             <div class="ui fluid card">
                 <div class="content">
-                    {{ post }} - {{ post.author }}
+                    {{ post }} - {{ post.author }} last login {{ post.author.user.last_login }} created {{ post.author.user.date_joined }}
+                    group {% for group in post.author.user.groups.all %}
+                        {{ group }}
+                    {% endfor %}
+
                 </div>
                 <div class="content">
                     <form action="{% url 'posts:like_unlike_post_url' %}" method="POST">{% csrf_token %}
