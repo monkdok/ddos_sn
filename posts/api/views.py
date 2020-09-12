@@ -9,7 +9,6 @@ from ..models import Post, Like
 from profiles.models import Profile
 from .service import LikeFilter
 from track_actions.requestMiddleware import RequestMiddleware
-from history.signals import object_viewed_signal
 from history.mixins import ObjectViewMixin
 
 

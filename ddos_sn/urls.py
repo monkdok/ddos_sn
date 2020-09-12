@@ -25,6 +25,7 @@ urlpatterns = [
     path('posts/', include('posts.urls', namespace='posts')),
     # Apps API
     path('api/posts/', include('posts.api.urls', 'posts_api')),
+    path('api/history/', include('history.api.urls', 'history_api')),
     path('track_actions/', include('track_actions.urls')),
 ]
 
@@ -35,6 +36,9 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 """
+Documentation:
+swagger/
+
 User Registration:
 auth/users/
 request body:
@@ -76,5 +80,6 @@ Post Analytics:
 api/posts/like-analytics/
 
 User Activity:
-track_actions/history/{user_id}
+/history/{user_id}
+/history/last-request/{user_id}
 """

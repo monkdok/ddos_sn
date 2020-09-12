@@ -23,6 +23,7 @@ class History(models.Model):
         verbose_name_plural = "Histories"
 
 
+
 # def object_viewed_receiver(sender, instance, request, *args, **kwargs):
 #     # new_history = History.objects.create(url=request.path, user=request.user, content_type=ContentType.objects.get_for_model(sender), object_id=instance.id)
 #     new_history = History.objects.create(url=request.path, user=request.user, content_type=ContentType.objects.get_for_model(sender))
